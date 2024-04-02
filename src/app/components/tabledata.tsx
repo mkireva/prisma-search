@@ -1,4 +1,7 @@
-export default async function TableData() {
+import { getData } from "@/lib/actions";
+
+const TableData = async ({ query }: { query: string }) => {
+  const employees = await getData(query);
   return (
     <table className="table table-zebra">
       <thead className="text-sm text-gray-700 uppercase bg-gray-50">
@@ -12,19 +15,23 @@ export default async function TableData() {
         </tr>
       </thead>
       <tbody>
-        <tr className="bg-white border-b">
-          <td className="py-3 px-6">1</td>
-          <td className="py-3 px-6">name</td>
-          <td className="py-3 px-6">email</td>
-          <td className="py-3 px-6">phone</td>
-          <td className="py-3 px-6">July 11, 2023</td>
-          <td className="flex justify-center gap-1 py-3">
-            <button className="btn btn-info">View</button>
-            <button className="btn btn-success">Edit</button>
-            <button className="btn btn-warning">Delete</button>
-          </td>
-        </tr>
+        {employees.map((rs, index) => (
+          <tr key={rs.id} className="bg-white border-b">
+            <td className="py-3 px-6">{index + 1}</td>
+            <td className="py-3 px-6">{rs.name}</td>
+            <td className="py-3 px-6">{rs.email}</td>
+            <td className="py-3 px-6">{rs.phone}</td>
+            <td className="py-3 px-6">July 11, 2023</td>
+            <td className="flex justify-center gap-1 py-3">
+              <button className="btn btn-info">View</button>
+              <button className="btn btn-success">Edit</button>
+              <button className="btn btn-warning">Delete</button>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
-}
+};
+
+export default TableData;
